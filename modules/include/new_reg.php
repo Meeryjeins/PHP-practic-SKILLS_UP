@@ -3,6 +3,7 @@ require"../require/config.php";
 
 //define y inicializa las variables que se van a usar del formulario.
 $name = $email = $phone = $address = $city = $province = $zip = $other = $news = $newscheck="";
+$name_err = $email_err = $phone_err = false;
 /**
  * Función para limpiar un dato procedente de un formulario.
  * 
@@ -76,6 +77,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $phone = limpiar_dato($_POST["phone"]);
     echo"$phone<br>";
 
+    if (validar_name($name)){
+        
+    }else{
+        $name_err=true;
+    }
+
+    if (validar_email($email)){
+        
+    }else{
+        $email_err=true;
+    }
+
+    if (validar_phone($phone)){
+        
+    }else{
+        $phone_err=true;
+    }
+
+    if(validar_name($name) || validar_email($email) || validar_phone($phone)){
+
+    }else{
+        if ($name_err==true){
+            echo "la validación de name ha fallado";
+        }elseif($email_err==true){
+            echo "La validación de email ha fallado";
+        }elseif($phone_err==true){
+            echo "La validación de phone ha fallado";
+        }   
+    }
+
+
     if(isset($_POST["address"])){
         $address = limpiar_dato ($_POST["address"]);
     }else{
@@ -145,9 +177,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		};
 
 	}
-}
 
-/* Si (llega datos) Entonces
+        }else{
+            if ($name_err==true){
+                echo "la validación de name ha fallado";
+            }elseif($email_err==true){
+                echo "La validación de email ha fallado";
+            }elseif($phone_err==true){
+                echo "La validación de phone ha fallado";
+            } 
+        } else{
+            echo"Uno de los datos requeridos no ha sido rellenado"
+        }
+
+        } else{
+            echo "No hemos recibido método post";
+        }
+        ?>
+
+/*Inicialización de las variables 
+Si (llega datos) Entonces
     tratamos datos
 		Si si hay información Entonces
         Si no llegan variables?**
