@@ -54,12 +54,15 @@ function limpiar_dato($data)
         */
 
         function validar_phone($phone){
-            if(!preg_match('(/^[0-9]+$/)',$phone)) {
+            if (!preg_match("/^[0-9]{9}+$/",$phone)) { 
                 return false;
             } else {
                 return true;
             }
         }
+
+
+
     
 
 //Si (llega datos)Entonces
@@ -71,11 +74,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         echo "<br><strong>name post hay datos</strong><br>";
         //Variables requeridas para enviar a BBDD:name,email y phone.
         $name = limpiar_dato($_POST["name"]);
-        echo"$name <br>";
+
         $email = limpiar_dato($_POST["email"]);
-        echo"$email <br>";
+
         $phone = limpiar_dato($_POST["phone"]);
-        echo"$phone<br>";
+
 
         if (validar_name($name)){
             
@@ -121,25 +124,35 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }else{
                 $zip = NULL;
             }
-
+            
             if(isset($_POST["newscheck"])){
                 $newscheck = limpiar_dato ($_POST["newscheck"]);
             }else{
                 $newscheck = NULL;
             }
-
+            
             if(isset($_POST["news"])){
                 $news = limpiar_dato ($_POST["news"]);
             }else{
                 $news = NULL;
             }
-
+            
             if(isset($_POST["other"])){
                 $other = limpiar_dato ($_POST["other"]);
             }else{
                 $other = NULL;
             }
-        
+            
+            echo "<br><strong>Name:</strong>" . $name . "<br>";
+            echo "<br><strong>Telefono:</strong>" . $phone . "<br>";
+            echo "<br><strong>Email:</strong>" . $email . "<br>";
+            echo "<br><strong>Address:</strong>" . $address . "<br>";
+            echo "<br><strong>City:</strong>" . $city . "<br>";
+            echo "<br><strong>Province:</strong>" . $province . "<br>";
+            echo "<br><strong>Zip:</strong>" . $zip . "<br>";
+            echo "<br><strong>other:</strong>" . $other . "<br>";
+            echo "<br><strong>News:</strong>" . $news . "<br>";
+            echo "<br><strong>Newscheck:</strong>" . $newscheck . "<br>";
             
             
             //var_dump($newsletter);
@@ -168,11 +181,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "no valida";
             }
         
-        
-        
         }else{
         
-        
+            // var_dump($phone);
+            // var_dump($phone_err);
             if ($name_err==true){
                 echo "la validación de name ha fallado";
             }elseif($email_err==true){
@@ -190,6 +202,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 
+//si los datos llegan se  limpia la informacion
 
 /*Inicialización de las variables 
 Si (llega datos) Entonces
