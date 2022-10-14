@@ -15,7 +15,7 @@ function limpiar_dato($data)
 {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = htmlspecialchars($data);d
     return $data;
 
 }
@@ -125,11 +125,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $zip = NULL;
             }
             
-            if(isset($_POST["newscheck"])){
-                $newscheck = limpiar_dato ($_POST["newscheck"]);
-            }else{
-                $newscheck = NULL;
-            }
+            //if(isset($_POST["newscheck"])){
+               // $newscheck = limpiar_dato ($_POST["newscheck"]);
+           // }else{
+              //  $newscheck = NULL;
+            //}
             
             if(isset($_POST["news"])){
                 $news = limpiar_dato ($_POST["news"]);
@@ -142,6 +142,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }else{
                 $other = NULL;
             }
+
+            $newscheck = filter_input(
+                INPUT_POST,
+                'newscheck',
+                FILTER_SANITIZE_SPECIAL_CHARS,
+                FILTER_REQUIRE_ARRAY
+            );
+            var_dump($newscheck);
+            //echo"<br>Longitud de newsletter: " . count($newsletter) ." . ";
+            
+           // echo"<br>";
+
             
             echo "<br><strong>Name:</strong>" . $name . "<br>";
             echo "<br><strong>Telefono:</strong>" . $phone . "<br>";
@@ -152,7 +164,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo "<br><strong>Zip:</strong>" . $zip . "<br>";
             echo "<br><strong>other:</strong>" . $other . "<br>";
             echo "<br><strong>News:</strong>" . $news . "<br>";
-            echo "<br><strong>Newscheck:</strong>" . $newscheck . "<br>";
+           // echo "<br><strong>Newscheck:</strong>" . $newscheck . "<br>";
             
             
             //var_dump($newsletter);
@@ -168,7 +180,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // === FIN MOSTRAR valores array.
         
             $other = limpiar_dato($_POST["other"]);
-            echo "<strong>Noticias que quiere recibir: $newscheck";
+           // echo "<strong>Noticias que quiere recibir: $newscheck";
             var_dump($name);
             
             echo "<br><strong>Name:</strong> $name <br>";
