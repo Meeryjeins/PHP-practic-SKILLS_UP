@@ -4,6 +4,7 @@ require"../require/config.php";
 //define y inicializa las variables que se van a usar del formulario.
 $name = $email = $phone = $address = $city = $province = $zip = $other = $news = $newscheck="";
 $name_err = $email_err = $phone_err = false;
+$checkNewscheck;
 /**
  * Función para limpiar un dato procedente de un formulario.
  * 
@@ -15,7 +16,7 @@ function limpiar_dato($data)
 {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);d
+    $data = htmlspecialchars($data);
     return $data;
 
 }
@@ -150,10 +151,46 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 FILTER_REQUIRE_ARRAY
             );
             var_dump($newscheck);
-            //echo"<br>Longitud de newsletter: " . count($newsletter) ." . ";
-            
-           // echo"<br>";
+            echo"<br>Longitud de newscheck: " . count($newscheck) ." . ";
+            echo"<br>";
 
+            $lengArray = count($newscheck);
+            switch($lengArray){
+                case 1:
+                    if ($newscheck[0] == "HTML"){
+                       
+                        $checkNewscheck = 100;
+                    }elseif($newscheck[0] == "CSS"){
+                       
+                        $checkNewscheck = 010;
+                    }else{
+                       
+                        $checkNewscheck = 001;
+                    }
+                    break;
+                case 2:
+                    
+                    if($newscheck[0] != "HTML"){
+                       
+                        $checkNewscheck = 011;
+                    }elseif($newscheck[0] != "CSS"){
+                       
+                        $checkNewscheck = 101;
+                    } else{
+                       
+                        $checkNewscheck = 110;
+                    }
+                    break;
+                case 3:
+                       
+                    $checkNewscheck = 111;
+                        break;
+                default:
+                       
+                    $checkNewscheck = 100;
+            }
+            
+            echo "código a enviar " .$checkNewscheck;
             
             echo "<br><strong>Name:</strong>" . $name . "<br>";
             echo "<br><strong>Telefono:</strong>" . $phone . "<br>";
