@@ -158,36 +158,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             switch($lengArray){
                 case 1:
                     if ($newscheck[0] == "HTML"){
-                       
-                        $checkNewscheck = 100;
+                    
+                        $checkNewscheck = bindec ('100');
                     }elseif($newscheck[0] == "CSS"){
-                       
-                        $checkNewscheck = 010;
+                    
+                        $checkNewscheck = bindec ('010');
                     }else{
-                       
-                        $checkNewscheck = 001;
+                    
+                        $checkNewscheck =bindec ('001');
                     }
                     break;
                 case 2:
                     
                     if($newscheck[0] != "HTML"){
-                       
-                        $checkNewscheck = 011;
+                    
+                        $checkNewscheck = bindec('011');
                     }elseif($newscheck[0] != "CSS"){
-                       
-                        $checkNewscheck = 101;
+                    
+                        $checkNewscheck = bindec('101');
                     } else{
-                       
-                        $checkNewscheck = 110;
+                    
+                        $checkNewscheck = bintec ('110');
                     }
                     break;
                 case 3:
-                       
-                    $checkNewscheck = 111;
+                    
+                    $checkNewscheck = bintec ('111');
                         break;
                 default:
-                       
-                    $checkNewscheck = 100;
+                    
+                    $checkNewscheck = bintec ('100');
             }
             
             echo "código a enviar " .$checkNewscheck;
@@ -202,7 +202,49 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo "<br><strong>other:</strong>" . $other . "<br>";
             echo "<br><strong>News:</strong>" . $news . "<br>";
            // echo "<br><strong>Newscheck:</strong>" . $newscheck . "<br>";
-            
+        
+            try{
+                $sql = "SELECT * from news_reg WHERE fullname = :fullname OR email = :email OR phone = :phone";
+                $stmt = $conn->prepare($sql);
+
+                $stmt->bindParam(":fullname", $name, PDO::PARAM_STR);
+                $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+                $stmt->bindParam(":phone", $phone, PDO::PARAM_STR);
+
+                $stmt->execute();
+                $resultado = $stmt->fetchAll();
+                echo"resultado es : " . var_dump($resultado) . "<br>";
+                if($resultado){
+                    echo"La informacion existe.<br>";
+
+                }else{
+
+                    try{
+                        $sql = "INSERT INTO news_reg (fullname, email, phone, address, city, state, zipcode, newsletters, format_news, suggestion) VALUES (:fullname, :email, :phone, :address, :city, :state, :zipcode, :newsletters, :format_news, :suggestion)";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindParam(':fullname', $name, PDO::PARAM_STR);
+                        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+                        $stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
+                        $stmt->bindParam(':address', $address, PDO::PARAM_STR);
+                        $stmt->bindParam(':city', $city, PDO::PARAM_STR);
+                        $stmt->bindParam(':state', $province, PDO::PARAM_STR);
+                        $stmt->bindParam(':zipcode', $zip, PDO::PARAM_STR);
+                        $stmt->bindParam(':newsletters', $checkNewscheck, PDO::PARAM_INT);
+                        $stmt->bindParam(':format_news', $news, PDO::PARAM_INT);
+                        $stmt->bindParam(':suggestion', $other, PDO::PARAM_STR);
+                        
+                        $stmt->execute();
+                        echo"New record created succefully.<br>";
+                        echo"Valor a ingresado decimal de 3bit: " . $checkNewscheck . "<br>";
+                    }catch(PDOException $e){
+                        echo $sql . "<br>" . $e->getMessage();
+                    }
+                    $conn = null;
+                }
+            } catch(PDOException $e){
+                echo $sql . "<br>" . $e->getMessage();
+                
+            }
             
             //var_dump($newsletter);
             //echo "</br>";
