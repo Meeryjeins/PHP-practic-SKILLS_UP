@@ -178,16 +178,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $checkNewscheck = bindec('101');
                     } else{
                     
-                        $checkNewscheck = bintec ('110');
+                        $checkNewscheck = bindec ('110');
                     }
                     break;
                 case 3:
                     
-                    $checkNewscheck = bintec ('111');
+                    $checkNewscheck = bindec ('111');
                         break;
                 default:
                     
-                    $checkNewscheck = bintec ('100');
+                    $checkNewscheck = bindec ('100');
             }
             
             echo "código a enviar " .$checkNewscheck;
@@ -260,17 +260,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
             $other = limpiar_dato($_POST["other"]);
            // echo "<strong>Noticias que quiere recibir: $newscheck";
-            var_dump($name);
-            
-            echo "<br><strong>Name:</strong> $name <br>";
-            echo "<strong>Telefono:</strong> $phone <br>";
-            echo "<strong>Email: </strong> $email <br>";
-            
-            if (validar_name($name)){
-                echo "validada";
-            } else {
-                echo "no valida";
-            }
+        
         
         }else{
         
